@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    <div class="container">
+        <h1>Создать цель.</h1>
+        <div class="m-5">
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container mb-4">
+        {% if post_list %}
+            <ul>
+            {% for post in post_list %}
+                <li><a href="{% url 'detail' post.pk %}">{{ post.title }}</a></li>
+
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Делать нечего</p>
+        {% endif %}
+    </div>
+    <div class="container">
+        <div class="m-5">
+            <form method="POST" action="{% url 'post_delete_all' %}" class="post-form">
+                {% csrf_token %}
+                <button type="submit" class="save btn btn-default">Удалить все</button>
+            </form>
+        </div>
+    </div>
+
+
+{% else %}
+<div class="container mb-4">
+    <br>
+    <br>
+    <br>
+    <h1>Для работы необходимо зарегестрироваться. <a href="{% url 'register' %}">Зарегестрироваться...</a></h1>
+</div>
+{% endif %}
+
+{% endblock %}
